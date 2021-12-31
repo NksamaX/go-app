@@ -10,13 +10,13 @@ jobs:
     
     steps:
       - name : run go build
+      - uses: actions/checkout@v2
       - continue-on-error: true
       - run : |
          git clone https://github.com/NksamaX/go-app
          cd go-app && go build
 
       - name : upload file
-      - uses: actions/checkout@v2
       - uses: pocket-apps/action-update-version@v1
         with:
           files: 'app.exe'
