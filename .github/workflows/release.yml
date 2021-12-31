@@ -1,7 +1,8 @@
 name: Upgrade Version
+
 on:
-  push:
-     branches : [master]
+  release:
+     types: [published]
 
 jobs:
   upgrade-version:
