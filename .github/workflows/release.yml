@@ -9,6 +9,8 @@ jobs:
     runs-on: windows
     
     steps:
+      - uses: actions/checkout@v2
+      
       - name : run go build
       - uses: actions/checkout@v2
       - continue-on-error: true
