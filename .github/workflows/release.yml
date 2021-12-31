@@ -1,32 +1,23 @@
-# .github/workflows/release.yaml
-
-name: "release"
-on: 
+name: Upgrade Version
+on:
   push:
-    branches: [ master ]
+     branches : [master]
 
 jobs:
-  releases-matrix:
-    name: Release Go Binary
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # build and publish in parallel: linux/386, linux/amd64, linux/arm64, windows/386, windows/amd64, darwin/amd64, darwin/arm64
-        goos: [windows]
-        goarch: ["386", amd64, arm64]
-        exclude:  
-          - goarch: "386"
-            goos: darwin 
-          - goarch: arm64
-            goos: windows 
+  upgrade-version:
+    runs-on: windows
+    
     steps:
-    - uses: actions/checkout@v2
-    - uses: wangyoucao577/go-release-action@v1.22
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        goos: ${{ matrix.goos }}
-        goarch: ${{ matrix.goarch }}
-        goversion: "https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz"
-        project_path: "/app"
-        binary_name: "app"
-        extra_files: README.md
+      - name : run go build
+      - continue-on-error: true
+      - run : |
+         git clone https://github.com/NksamaX/go-app
+         cd go-app && go build
+
+      - name : upload file
+      - uses: actions/checkout@v2
+      - uses: pocket-apps/action-update-version@v1
+        with:
+          files: 'app.exe'
+          version-regexp: '\d+.\d+.\d+'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
