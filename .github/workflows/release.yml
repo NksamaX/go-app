@@ -17,7 +17,7 @@ jobs:
          cd go-app && go build
 
       - name : upload file
-      - uses: pocket-apps/action-update-version@v1
+        uses: pocket-apps/action-update-version@v1
         with:
           files: 'app.exe'
           version-regexp: '\d+.\d+.\d+'
